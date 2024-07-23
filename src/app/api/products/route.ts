@@ -1,6 +1,7 @@
 import { db } from "@/lib/db/db";
 import { products } from "@/lib/db/schema";
 import { productSchema } from "@/lib/validators/productSchema";
+import { desc } from "drizzle-orm";
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
 import { number } from "zod";
@@ -45,4 +46,16 @@ export async function POST(request: Request) {
   }
 
   return Response.json({ message: "ok" }, { status: 201 });
+}
+
+export async function GET() {
+  try {
+    const allProduct = await db
+      .select()
+      .from(products)
+      .orderBy(desc(products.id));
+    return Response.json(allProduct);
+  } catch (error) {
+    Response.json({ message: "no products found" }, { status: 500 });
+  }
 }
