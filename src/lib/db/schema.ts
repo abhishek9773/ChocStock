@@ -1,6 +1,13 @@
 import { sql } from "drizzle-orm";
 import { MySqlDateTimeString } from "drizzle-orm/mysql-core";
-import { pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import {
+  integer,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  varchar,
+} from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey().notNull(),
@@ -11,6 +18,16 @@ export const users = pgTable("users", {
   external_id: varchar("external_id", { length: 100 }).notNull(),
   image: text("image").notNull(),
   role: varchar("role", { length: 12 }).notNull().default("customer"),
-  update_at: timestamp("update_at").default(sql`CURRENT_TIMESTAMP`),
+  updated_at: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
+  created_at: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
+export const products = pgTable("products", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 100 }),
+  image: text("image"),
+  description: text("description"),
+  price: integer("price").notNull(),
+  updated_at: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
   created_at: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
 });
