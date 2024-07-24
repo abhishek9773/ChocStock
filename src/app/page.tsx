@@ -1,5 +1,10 @@
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 export default function Home() {
-  return <div>hellow abhishek</div>;
+  return (
+    <div>
+      <Button>Hellow abhishek</Button>
+    </div>
+  );
 }
