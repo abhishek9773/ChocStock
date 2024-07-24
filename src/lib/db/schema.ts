@@ -68,3 +68,19 @@ export const deliveryPersons = pgTable("delivery_persons", {
   updated_at: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
   created_at: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
 });
+
+export const inventories = pgTable("inventories", {
+  id: serial("id").primaryKey(),
+  sku: varchar("sku", { length: 8 }).unique().notNull(),
+  orderId: integer("order_id").references(() => orders.id, {
+    onDelete: "set null",
+  }),
+  warehouse_id: integer("warehouse_id").references(() => warehouses.id, {
+    onDelete: "cascade",
+  }),
+  product_id: integer("produt_id").references(() => products.id, {
+    onDelete: "cascade",
+  }),
+  updated_at: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
+  created_at: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
+});
